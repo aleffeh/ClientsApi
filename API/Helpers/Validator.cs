@@ -1,12 +1,16 @@
-﻿namespace API.Helpers
+﻿using System.Text.RegularExpressions;
+using API.Models;
+
+namespace API.Helpers
 {
     public static class Validator
     {
-        /// <summary>
-        /// Receives a cpf string with or without punctuation.
-        /// </summary>
-        /// <param name="cpf"></param>
-        /// <returns>True for Valid CPF and False for Invalid CPF</returns>
+
+        public static bool IsValidClient(Client client) => IsNotNull(client) &&
+                                                           IsValidCpf(client.Cpf) && IsValidDate(client.Birthday) &&
+                                                           IsValidCellPhoneNumber(client.PhoneNumber) &&
+                                                           IsValidObs(client.Obs);
+
         public static bool IsValidCpf(string cpf)
         {
             var multiplicador1 = new int[9] {10, 9, 8, 7, 6, 5, 4, 3, 2};
@@ -45,5 +49,14 @@
             digito += resto.ToString();
             return cpf.EndsWith(digito);
         }
+
+        public static bool IsValidObs(string obs) => obs == null || obs.Length < 300;
+        public static bool IsNotNull(Client client) =>
+            client.Adress != null && client.Birthday != null && client.Cpf != null && client.Email != null &&
+            client.Name != null && client.PhoneNumber != null;
+
+        public static bool IsValidCellPhoneNumber(string phoneNumber) => Regex.IsMatch(phoneNumber,"^\\([1-9]{2}\\) (?:[2-8]|9[1-9])[0-9]{3}\\-[0-9]{4}$",RegexOptions.Compiled);
+        public static bool IsValidDate(string date) => Regex.IsMatch(date,
+            "(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/((1[2-9]|[2-9][0-9])[0-9])",RegexOptions.Compiled);
     }
 }

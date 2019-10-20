@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using API.Models;
 using API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,12 +18,6 @@ namespace API.Controllers
         {
             ClientService = new ClientService();
         }
-//
-//        [HttpGet]
-//        public IEnumerable<Client> Get()
-//        {
-//            return ClientService.GetClients();
-//        }
 
         [HttpGet]
         public ActionResult<IEnumerator<Client>> GetById(int id = -1)
