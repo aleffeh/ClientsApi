@@ -1,15 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Net.Mime;
+using API.Models;
+using API.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class ClientController : Controller
+    [Route("api/[controller]")]
+    [Produces(MediaTypeNames.Application.Json)]
+    public class ClientController : ControllerBase
     {
-        [HttpGet]
-        public string Get()
+        private IClientService ClientService;
+
+        public ClientController()
         {
-            return "<h1>Hello World</h1>";
+            ClientService = new ClientService();
+        }
+        
+        [HttpGet]
+        public IEnumerable<Client> Get()
+        {
+            return ClientService.GetClients();
+        }
+
+        [HttpPost]
+        public Client Post(Client client)
+        {
+          return ClientService.PostClient(client);
         }
     }
 }

@@ -4,8 +4,9 @@ namespace API.Models
 {
     public class Client
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime Birthday { get; set; }
+        public string Birthday { get; set; }
         public string Cpf { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
