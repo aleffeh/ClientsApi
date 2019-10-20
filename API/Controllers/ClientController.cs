@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using API.Models;
 using API.Services;
@@ -19,17 +20,40 @@ namespace API.Controllers
         {
             ClientService = new ClientService();
         }
-        
+//
+//        [HttpGet]
+//        public IEnumerable<Client> Get()
+//        {
+//            return ClientService.GetClients();
+//        }
+
         [HttpGet]
-        public IEnumerable<Client> Get()
+        public ActionResult<IEnumerator<Client>> GetById(int id = -1)
         {
-            return ClientService.GetClients();
+            var hasQuery = id != -1;
+            var result = hasQuery ? ClientService.GetClientById(id) : ClientService.GetClients();
+            
+            if (!hasQuery) return Ok(result);
+            
+            if (result.ToArray().Length == 0)
+                return NotFound("Not Found On Database");
+            return Ok(result);
         }
 
         [HttpPost]
-        public Client Post(Client client)
+        public IActionResult Post(Client client)
         {
-          return ClientService.PostClient(client);
+            client = ClientService.PostClient(client);
+            return CreatedAtAction(nameof(GetById), new {Id = client.Id}, client);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<Client> Put(int id,[FromBody]Client client)
+        {
+            var result =  ClientService.PutClient(id,client);
+            if (result == null)
+                return NotFound("Not Found On Database");
+            return Ok(result);
         }
     }
 }

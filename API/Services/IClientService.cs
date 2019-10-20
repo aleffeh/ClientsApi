@@ -10,7 +10,7 @@ namespace API.Services
         IEnumerable<Client> GetClientsByEmail(string email);
         IEnumerable<Client> GetClientsByName(string name);
         IEnumerable<Client> GetClientById(int Id);
-        ActionResult PutClient(Client client);
+        Client PutClient(int id, Client client);
         Client PostClient(Client client);
     }
 }
