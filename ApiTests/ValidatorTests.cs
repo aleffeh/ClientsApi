@@ -11,54 +11,62 @@ namespace ApiTests
             Name = "Felipe Oliveira",
             Adress = "Armando Martiminiano",
             Birthday = "06/01/2000",
-            Cpf = "479.280.648.80",
+            Cpf = "673.245.860-40",
             Email = "felipexk1@live.com",
             PhoneNumber = "(17) 99192-8474",
-            Obs = "Teste som um dois trws"
+            Obs = "Teste som um dois tres"
         };
-      
+
         [Test]
         public void ValidaCpfComPontuacao()
         {
             const string validCpf = "125.192.550-21";
             const string invalidCpf = "125.122.560-25";
-            
-            Assert.AreEqual(true,Validator.IsValidCpf(validCpf));
-            Assert.AreNotEqual(true,Validator.IsValidCpf(invalidCpf));
+
+            Assert.AreEqual(true, Validator.IsValidCpf(validCpf));
+            Assert.AreNotEqual(true, Validator.IsValidCpf(invalidCpf));
         }
-        
+
         [Test]
         public void ValidaCpfSemPontuacao()
         {
             const string validCpf = "12519255021";
             const string invalidCpf = "12569252029";
-            
-            Assert.AreEqual(true,Validator.IsValidCpf(validCpf));
-            Assert.AreNotEqual(true,Validator.IsValidCpf(invalidCpf));
+
+            Assert.AreEqual(true, Validator.IsValidCpf(validCpf));
+            Assert.AreNotEqual(true, Validator.IsValidCpf(invalidCpf));
         }
 
         [Test]
-        public void ValidaCpf() => Assert.AreEqual(true,Validator.IsValidCpf(client.Cpf));
+        public void ValidaCpf() => Assert.AreEqual(true, Validator.IsValidCpf(client.Cpf));
 
         [Test]
-        public void ValidaObs() => Assert.AreEqual(true,Validator.IsValidObs(client.Obs));
+        public void ValidaObs() => Assert.AreEqual(true, Validator.IsValidObs(client.Obs));
 
         [Test]
         public void ValidaPhoneNumber() => Assert.AreEqual(true, Validator.IsValidCellPhoneNumber(client.PhoneNumber));
+
         [Test]
-        public void ValidaBirthday() => Assert.AreEqual(true,Validator.IsValidDate(client.Birthday));
+        public void ValidaBirthday() => Assert.AreEqual(true, Validator.IsValidDate(client.Birthday));
+
         [Test]
-        public void ValidaNull() => Assert.AreEqual(true,Validator.IsNotNull(client));
+        public void ValidaNull() => Assert.AreEqual(true, Validator.IsNotNull(client));
 
 
-        
         [Test]
-        public void ValidaPhoneNumberCorreto() => Assert.AreEqual(true,Validator.IsValidCellPhoneNumber("(17) 99192-8474"));  
+        public void ValidaPhoneNumberCorreto() =>
+            Assert.AreEqual(true, Validator.IsValidCellPhoneNumber("(17) 99192-8474"));
+
         [Test]
-        public void ValidaPhoneNumberSemEspaco() => Assert.AreNotEqual(true,Validator.IsValidCellPhoneNumber("(17)99192-8474"));
+        public void ValidaPhoneNumberSemEspaco() =>
+            Assert.AreNotEqual(true, Validator.IsValidCellPhoneNumber("(17)99192-8474"));
+
         [Test]
-        public void ValidaPhoneNumberSemMarcacao() => Assert.AreNotEqual(true,Validator.IsValidCellPhoneNumber("17991928474"));
+        public void ValidaPhoneNumberSemMarcacao() =>
+            Assert.AreNotEqual(true, Validator.IsValidCellPhoneNumber("17991928474"));
+
         [Test]
-        public void ValidaPhoneNumberFixo() => Assert.AreEqual(true,Validator.IsValidCellPhoneNumber("(17) 3192-8474"));  
+        public void ValidaPhoneNumberFixo() =>
+            Assert.AreEqual(true, Validator.IsValidCellPhoneNumber("(17) 3192-8474"));
     }
 }
