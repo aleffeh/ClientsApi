@@ -18,7 +18,8 @@ namespace API.Controllers
         {
             ClientService = new ClientService();
         }
-
+        
+        //Default value is -1 in order to diff queries.
         [HttpGet]
         public ActionResult<IEnumerator<Client>> GetById(int id = -1)
         {

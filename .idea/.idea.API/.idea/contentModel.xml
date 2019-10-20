@@ -28,6 +28,7 @@
           <e p="Debug" t="Include">
             <e p="netcoreapp3.0" t="Include">
               <e p="API.AssemblyInfo.cs" t="Include" />
+              <e p="API.MvcApplicationPartsAssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
