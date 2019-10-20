@@ -12,5 +12,6 @@ namespace API.Services
         IEnumerable<Client> GetClientById(int Id);
         Client PutClient(int id, Client client);
         Client PostClient(Client client);
+        bool DeleteClient(int id);
     }
 }

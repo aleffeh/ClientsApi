@@ -55,5 +55,14 @@ namespace API.Controllers
                 return NotFound("Not Found On Database");
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var result = ClientService.DeleteClient(id);
+            if (result)
+                return Ok("Deleted Suscessfully");
+            return NotFound("Item Not Found");
+        }
     }
 }
