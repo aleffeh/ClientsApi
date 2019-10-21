@@ -37,7 +37,8 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Post(Client client)
         {
-            if (!Validator.IsValidClient(client)) return BadRequest("Client is not valid.");
+            var output = Validator.IsValidClient(client);
+            if (output != Validation.Valid) return BadRequest(Validator.GetMessage(output));
             client = _clientService.PostClient(client);
             return CreatedAtAction(nameof(GetById), new {Id = client.Id}, client);
         }
@@ -45,7 +46,8 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public ActionResult<Client> Put(int id, [FromBody] Client client)
         {
-            if (!Validator.IsValidClient(client)) return BadRequest("Client is not valid.");
+            var output = Validator.IsValidClient(client);
+            if (output != Validation.Valid) return BadRequest(Validator.GetMessage(output));
             var result = _clientService.PutClient(id, client);
             if (result == null)
                 return NotFound("Not Found On Database");

@@ -32,6 +32,10 @@ namespace API.Services
         public Client PostClient(Client client)
         {
             client.Id = Clients.Count + 1;
+            //get an unique id based on list size and already used ids.
+            while (Clients.Find(i => i.Id == client.Id) != null) 
+                client.Id += 1;
+            
             Clients.Add(client);
             return client;
         }

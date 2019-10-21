@@ -1,15 +1,51 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using API.Models;
 
 namespace API.Helpers
 {
+    public enum Validation
+    {
+        Valid,
+        Null,
+        Cpf,
+        Birthday,
+        PhoneNumber,
+        Obs
+    }
+
     public static class Validator
     {
-        public static bool IsValidClient(Client client) => IsNotNull(client) &&
-                                                           IsValidCpf(client.Cpf) && IsValidDate(client.Birthday) &&
-                                                           IsValidCellPhoneNumber(client.PhoneNumber) &&
-                                                           IsValidObs(client.Obs);
+        public static Validation IsValidClient(Client client)
+        {
+            if (!IsNotNull(client)) return Validation.Null;
+            if (!IsValidCpf(client.Cpf)) return Validation.Cpf;
 
+            if (!IsValidDate(client.Birthday)) return Validation.Birthday;
+            if (!IsValidCellPhoneNumber(client.PhoneNumber)) return Validation.PhoneNumber;
+            if (!IsValidObs(client.Obs)) return Validation.Obs;
+
+            return Validation.Valid;
+        }
+
+        public static string GetMessage(Validation result)
+        {
+            switch (result)
+            {
+                case Validation.Null:
+                    return "Only observation field can be null.";
+                case Validation.Cpf:
+                    return "Cpf Must Be valid.";
+                case Validation.Birthday:
+                    return "Birth date must be in format => DD/MM/YYYY";
+                case Validation.PhoneNumber:
+                    return "Phone number must be in format => (xx) xxxxx-xxxx ";
+                case Validation.Obs:
+                    return "Observation must be less than 300 characters.";
+                default:
+                    return "An unknown error has occured.";
+            }
+        }
         public static bool IsValidCpf(string cpf)
         {
             var multiplicador1 = new int[9] {10, 9, 8, 7, 6, 5, 4, 3, 2};

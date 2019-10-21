@@ -52,6 +52,8 @@ namespace ApiTests
         [Test]
         public void ValidaNull() => Assert.AreEqual(true, Validator.IsNotNull(client));
 
+        [Test]
+        public void ValidaClient() => Assert.AreEqual(Validation.Valid, Validator.IsValidClient(client));
 
         [Test]
         public void ValidaPhoneNumberCorreto() =>
