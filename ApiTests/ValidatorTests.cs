@@ -18,23 +18,24 @@ namespace ApiTests
         };
 
         [Test]
-        public void ValidaCpfComPontuacao()
+        [TestCase("125.192.550-21")]
+        [TestCase("12519255021")]
+        [TestCase("27308983870")]
+        [TestCase("22236268823")]
+        public void CPF_IsValid(string cpf)
         {
-            const string validCpf = "125.192.550-21";
-            const string invalidCpf = "125.122.560-25";
+            Assert.AreEqual(true, Validator.IsValidCpf(cpf));
 
-            Assert.AreEqual(true, Validator.IsValidCpf(validCpf));
-            Assert.AreNotEqual(true, Validator.IsValidCpf(invalidCpf));
         }
 
         [Test]
-        public void ValidaCpfSemPontuacao()
+        [TestCase("125.122.560-25")]
+        [TestCase("12569252029")]
+        [TestCase("1256925202")]
+        public void CPF_IsNotValid(string cpf)
         {
-            const string validCpf = "12519255021";
-            const string invalidCpf = "12569252029";
-
-            Assert.AreEqual(true, Validator.IsValidCpf(validCpf));
-            Assert.AreNotEqual(true, Validator.IsValidCpf(invalidCpf));
+            
+            Assert.AreNotEqual(true, Validator.IsValidCpf(cpf));
         }
 
         [Test]
@@ -56,19 +57,17 @@ namespace ApiTests
         public void ValidaClient() => Assert.AreEqual(Validation.Valid, Validator.IsValidClient(client));
 
         [Test]
-        public void ValidaPhoneNumberCorreto() =>
-            Assert.AreEqual(true, Validator.IsValidCellPhoneNumber("(17) 99192-8474"));
+        
+        [TestCase("(17) 99192-8474")]
+        public void ValidaPhoneNumber_Correto(string value) =>
+            Assert.AreEqual(true, Validator.IsValidCellPhoneNumber(value));
 
         [Test]
-        public void ValidaPhoneNumberSemEspaco() =>
-            Assert.AreNotEqual(true, Validator.IsValidCellPhoneNumber("(17)99192-8474"));
+        [TestCase("17991928474")]
+        [TestCase("(17)99192-8474")]
+        [TestCase("(17) 3192-8474")]
+        public void ValidaPhoneNumber_Incorreto(string value) =>
+            Assert.AreNotEqual(true, Validator.IsValidCellPhoneNumber(value));
 
-        [Test]
-        public void ValidaPhoneNumberSemMarcacao() =>
-            Assert.AreNotEqual(true, Validator.IsValidCellPhoneNumber("17991928474"));
-
-        [Test]
-        public void ValidaPhoneNumberFixo() =>
-            Assert.AreEqual(true, Validator.IsValidCellPhoneNumber("(17) 3192-8474"));
     }
 }
