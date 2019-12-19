@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api")]
     [Produces(MediaTypeNames.Application.Json)]
     public class ClientController : ControllerBase
     {
@@ -21,17 +21,10 @@ namespace API.Controllers
         }
 
         //Default value is -1 in order to diff queries.
-        [HttpGet]
-        public ActionResult<IEnumerator<Client>> GetById(int id = -1)
+        [HttpGet("/getHelloWorld")]
+        public string Get()
         {
-            var hasQuery = id != -1;
-            var result = hasQuery ? _clientService.GetClientById(id) : _clientService.GetClients();
-
-            if (!hasQuery) return Ok(result);
-
-            if (result.ToArray().Length == 0)
-                return NotFound("Not Found On Database");
-            return Ok(result);
+            return "Hello World";
         }
 
         [HttpPost]
@@ -40,7 +33,7 @@ namespace API.Controllers
             var output = Validator.IsValidClient(client);
             if (output != Validation.Valid) return BadRequest(Validator.GetMessage(output));
             client = _clientService.PostClient(client);
-            return CreatedAtAction(nameof(GetById), new {Id = client.Id}, client);
+            return CreatedAtAction(nameof(Get), new {Id = client.Id}, client);
         }
 
         [HttpPut("{id}")]
